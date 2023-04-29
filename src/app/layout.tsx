@@ -1,6 +1,8 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 
+import Header from "@/components/header";
+
 import { Providers } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,7 +21,12 @@ export default function RootLayout({
     <html lang="ja">
       <body className={inter.className}>
         {/* https://chakra-ui.com/getting-started/nextjs-guide#app-directory-setup */}
-        <Providers>{children}</Providers>
+        <Providers>
+          <div>
+            <Header />
+            <main>{children}</main>
+          </div>
+        </Providers>
       </body>
     </html>
   );
