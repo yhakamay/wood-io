@@ -22,10 +22,8 @@ export default function RootLayout({
       <body className={notoSansJP.className}>
         {/* https://chakra-ui.com/getting-started/nextjs-guide#app-directory-setup */}
         <Providers>
-          <div>
-            <Header />
-            <main>{children}</main>
-          </div>
+          <Header />
+          <main>{children}</main>
         </Providers>
       </body>
     </html>
