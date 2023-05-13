@@ -1,11 +1,11 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 
 import Header from "@/components/header";
 
 import { Providers } from "./providers";
 
-const inter = Inter({ subsets: ["latin"] });
+const notoSansJP = Noto_Sans_JP({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Wood.io",
@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ja">
-      <body className={inter.className}>
+      <body className={notoSansJP.className}>
         {/* https://chakra-ui.com/getting-started/nextjs-guide#app-directory-setup */}
         <Providers>
           <div>
