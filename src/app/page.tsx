@@ -1,19 +1,33 @@
 "use client";
 
 import { Link } from "@chakra-ui/next-js";
-import {
-  Card,
-  CardBody,
-  Heading,
-  ListItem,
-  SimpleGrid,
-  Text,
-  UnorderedList,
-} from "@chakra-ui/react";
+import { Card, CardBody, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import { collection } from "firebase/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
-import { woodRequests } from "../dummy-data";
+import { db } from "@/lib/firebase";
+import { WoodRequest, woodRequestConverter } from "@/types/wood_request";
+
+import Loading from "./loading";
 
 export default function Home() {
+  const ref = collection(db, "wood-requests");
+  const [woodRequests, loading, error] = useCollectionData<WoodRequest>(
+    ref.withConverter(woodRequestConverter)
+  );
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Text>{JSON.stringify(error)}</Text>;
+  }
+
+  if (!woodRequests) {
+    return <Text>No wood requests</Text>;
+  }
+
   return (
     <SimpleGrid minChildWidth="320px" spacing="40px">
       {woodRequests.map((woodRequest) => (
@@ -30,13 +44,6 @@ export default function Home() {
               <Text fontSize={"xs"} mt={"4"}>
                 {woodRequest.description}
               </Text>
-              <UnorderedList mt={"8px"}>
-                {woodRequest.woods.map((wood) => (
-                  <ListItem key={wood.name}>
-                    {wood.name} {wood.amount}本
-                  </ListItem>
-                ))}
-              </UnorderedList>
             </CardBody>
           </Card>
         </Link>
