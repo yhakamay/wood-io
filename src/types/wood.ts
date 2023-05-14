@@ -1,3 +1,11 @@
+import {
+  FirestoreDataConverter,
+  WithFieldValue,
+  DocumentData,
+  QueryDocumentSnapshot,
+  SnapshotOptions,
+} from "firebase/firestore";
+
 type AllowedWoods =
   | "杉"
   | "松"
@@ -50,4 +58,23 @@ type AllowedWoods =
 export type Wood = {
   name: AllowedWoods;
   amount: number;
+};
+
+export const woodConverter: FirestoreDataConverter<Wood> = {
+  toFirestore(wood: WithFieldValue<Wood>): DocumentData {
+    return {
+      name: wood.name,
+      amount: wood.amount,
+    };
+  },
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): Wood {
+    const data = snapshot.data(options);
+    return {
+      name: data.name,
+      amount: data.amount,
+    };
+  },
 };
